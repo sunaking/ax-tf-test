@@ -1,0 +1,21 @@
+[Unit]
+Description=FastAPI Server (Uvicorn)
+After=network.target
+
+[Service]
+Type=simple
+User=azureuser
+# (A) FastAPI 코드 폴더
+WorkingDirectory=/home/azureuser/work/work/streamlit_basic/project01/apiserver
+
+# (B)(C) 파이썬 실제 경로 + uvicorn 모듈로 실행 (포트 8000, 로컬 바인딩)
+ExecStart=/home/azureuser/.pyenv/versions/py3_11_9/bin/python -m uvicorn fastapi_server:app --host 127.0.0.1 --port 8000 --workers 2
+
+# 환경 PATH (선택, 추후 pip/uvicorn 직접 호출 시 유용)
+Environment="PATH=/home/azureuser/.pyenv/versions/py3_11_9/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin"
+
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
